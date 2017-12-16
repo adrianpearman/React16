@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Radium, { StyleRoot } from 'radium'
 import Person from './Components/Person'
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -32,9 +33,7 @@ class App extends Component {
     })
 
     const person = {...this.state.persons[personIndex]}
-
     person.name = event.target.value;
-
     const persons = [...this.state.persons]
     persons[personIndex] = person
 
@@ -59,6 +58,7 @@ class App extends Component {
     this.setState({persons: persons})
   }
 
+
   render() {
     // inline styling as alternative to standard css styling
     const style ={
@@ -75,6 +75,22 @@ class App extends Component {
       }
     }
 
+    let classes = []
+    if (this.state.persons.length <= 2) {
+      classes.push('red')
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold')
+    }
+
+    let counterClass = []
+    if (this.state.persons.length <= 2) {
+      counterClass.push('red')
+    }
+    if (this.state.persons.length <= 1) {
+      counterClass.push('bold')
+    }
+
     // Option 1 for conditional content - the recommended method. Having the function outside of the return function
     let persons = null;
     if (this.state.showPersons) {
@@ -82,17 +98,19 @@ class App extends Component {
         <div>
           {this.state.persons.map((person, index) => {
             return(
-              <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                click={() => this.deletePersonHandler(index)}
-                changed={(event) => this.nameChangeHandler(event, person.id)}
-                // // option 1 for binding a props handler
-                // click={() => this.switchNameHandler('Adrian')}/>
-                // // option 2 for binding a props handler
-                // click={this.switchNameHandler.bind(this, 'ADRIAN!!')}/>
-              />
+              // ErrorBoundary used for production instances. Development will always show a seperate error handling screen
+              <ErrorBoundary key={person.id}>
+                <Person
+                  name={person.name}
+                  age={person.age}
+                  click={() => this.deletePersonHandler(index)}
+                  changed={(event) => this.nameChangeHandler(event, person.id)}
+                  // // option 1 for binding a props handler
+                  // click={() => this.switchNameHandler('Adrian')}/>
+                  // // option 2 for binding a props handler
+                  // click={this.switchNameHandler.bind(this, 'ADRIAN!!')}/>
+                />
+              </ErrorBoundary>
             )
           })}
         </div>
@@ -103,15 +121,17 @@ class App extends Component {
         color: 'black'
       }
     }
+    let personsCount = null;
+    if (this.state.showPersons) {
+      personsCount = (
+        <div>
+          <p>There are currently <span className={counterClass.join(' ')}>{this.state.persons.length}</span> people in the list</p>
+        </div>
+      )
+    }
 
 
-    let classes = []
-    if (this.state.persons.length <= 2) {
-      classes.push('red')
-    }
-    if (this.state.persons.length <= 1) {
-      classes.push('bold')
-    }
+
 
     return (
       // when media queries are added through Radium. The StyleRoot Component should be used around the application.
@@ -125,12 +145,15 @@ class App extends Component {
             Toggle List
           </button>
 
+          {personsCount}
+
           {/* Option 2 for conditional content - utilizing a toggle switch w/ a ternary operator inside of the return function
           {
             this.state.showPersons === true ?
             // Place the list of Person components here
             : null
           } */}
+
           {persons}
         </div>
       </StyleRoot>
