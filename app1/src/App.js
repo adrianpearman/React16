@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Radium, { StyleRoot } from 'radium'
 import Person from './Components/Person'
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import ErrorBoundary from './Components/ErrorBoundary'
+import Persons from './Components/Persons'
+import Cockpit from './Components/Cockpit'
 
 class App extends Component {
   state = {
@@ -96,23 +98,13 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return(
-              // ErrorBoundary used for production instances. Development will always show a seperate error handling screen
-              <ErrorBoundary key={person.id}>
-                <Person
-                  name={person.name}
-                  age={person.age}
-                  click={() => this.deletePersonHandler(index)}
-                  changed={(event) => this.nameChangeHandler(event, person.id)}
-                  // // option 1 for binding a props handler
-                  // click={() => this.switchNameHandler('Adrian')}/>
-                  // // option 2 for binding a props handler
-                  // click={this.switchNameHandler.bind(this, 'ADRIAN!!')}/>
-                />
-              </ErrorBoundary>
-            )
-          })}
+          {/* ErrorBoundary used for production instances. Development will always show a seperate error handling screen */}
+          <ErrorBoundary key={this.state.persons.id}>
+            <Persons
+              persons={this.state.persons}
+              click={this.deletePersonHandler}
+              changed={this.nameChangeHandler}/>
+          </ErrorBoundary>
         </div>
       );
       style.backgroundColor = 'red'
@@ -121,6 +113,7 @@ class App extends Component {
         color: 'black'
       }
     }
+
     let personsCount = null;
     if (this.state.showPersons) {
       personsCount = (
@@ -137,23 +130,18 @@ class App extends Component {
       // when media queries are added through Radium. The StyleRoot Component should be used around the application.
       <StyleRoot>
         <div className="App">
-          <h1>Hello, welcome to this React App</h1>
-          <p className={classes.join(' ')}> Let see the list of people!</p>
-          <button
-            style={style}
-            onClick={this.togglePersonsHandler}>
-            Toggle List
-          </button>
-
+          <Cockpit
+            style = {style}
+            classes = {classes}
+            click = {this.togglePersonsHandler}
+          />
           {personsCount}
-
           {/* Option 2 for conditional content - utilizing a toggle switch w/ a ternary operator inside of the return function
           {
             this.state.showPersons === true ?
             // Place the list of Person components here
             : null
           } */}
-
           {persons}
         </div>
       </StyleRoot>
