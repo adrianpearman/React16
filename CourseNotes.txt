@@ -1,0 +1,67 @@
+React
+- A Javascript library for building User Interfaces
+
+Different Types of Components
+Simple Components
+Stateful Components
+
+Why React?
+UI States become difficult to handle with vanilla Javascript
+Focuses on the business logic, not on preventing your app from exploding in size
+Huge ecosystem, active community, high performance
+
+React Alternatives:
+Vue
+Angular (2 or 4)
+
+Types of React Applications
+Single Page Applications
+- Only one HTML page, content (re)rendered on the Client
+- Typically only ONE ReactDOM.render() Typically
+
+Multi Page Applications
+- Multiple HTML pages, content is rendered on the server
+- Usually multiple ReactDOM.render() calls per page
+
+ES6 - Quick  overview
+Properties are like "variables attached to classes/objects"
+Methods are like"functions attached to classes/objects"
+Spread operators used to split an array elements or object Properties
+Rest operators are used to merge a list of function arguments into an array
+
+
+npm radium = allows for psuedo css queries to be added as a inline style
+
+npm prop-types = is used to validate the type of prop value to insure the component works properly
+
+Functional (class) vs Stateful (function)(container based) Components
+
+functional have narrow focus.
+when possible use it more
+
+Stateful
+- class XY extends Component
+- Access to state and life cycle hooks
+- Access to state and props via 'this' (i.e this.state.xy or this.props.xy)
+
+Stateless
+- const XY = (props) => (...)
+- No access to state of lifecycle hooks
+- Access props via 'props' (i.e. props.xy)
+
+Component lifecycle
+- Only available in Stateful Components
+examples:
+constructor()
+componentWillMount()
+componentWillReceiveProps()
+shouldComponentUpdate()
+componentWillUpdate()
+componentDidUpdate()
+componentDidCatch()
+componentDidMount()
+componentWillUnmount()
+render()
+
+HOC - High Order Components
+A HOC is a function that takes a component and returns a new component.
