@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import Radium, { StyleRoot } from 'radium'
+import PropTypes from 'prop-types'
 import Person from './Components/Person'
 import ErrorBoundary from './Components/ErrorBoundary'
 import Persons from './Components/Persons'
 import Cockpit from './Components/Cockpit'
 
 class App extends Component {
-  state = {
-    persons: [
-      {id: '1',name: 'Adrian', age: 26},
-      {id: '2',name: 'Ryan', age: 27},
-      {id: '3',name: 'Rubix', age: 62},
-      {id: '4',name: 'Brad', age: 34}
-    ],
-    showPersons: false
+  constructor(props){
+    super(props)
+    this.state = {
+      persons: [
+        {id: '1',name: 'Adrian', age: 26},
+        {id: '2',name: 'Ryan', age: 27},
+        {id: '3',name: 'Rubix', age: 62},
+        {id: '4',name: 'Brad', age: 34}
+      ],
+      showPersons: false,
+      toggleClicked: 0
+    }
   }
 
   switchNameHandler = (newName) => {
@@ -47,8 +52,12 @@ class App extends Component {
   // uses state to change the view of the PersonsList
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({
-      showPersons: !doesShow
+    // the better approach for manipulating state where its placed with a prevState function call.
+    this.setState((prevState, props) => {
+      return {
+	       showPersons: !doesShow,
+         toggleClicked: this.state.toggleClicked + 1
+       }
     })
   }
 
@@ -123,9 +132,6 @@ class App extends Component {
       )
     }
 
-
-
-
     return (
       // when media queries are added through Radium. The StyleRoot Component should be used around the application.
       <StyleRoot>
@@ -149,4 +155,11 @@ class App extends Component {
   }
 }
 
+// The PropTypes function is used to validate the type of prop value to insure the component works properly
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func
+}
 export default Radium(App);
