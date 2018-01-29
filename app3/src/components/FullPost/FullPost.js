@@ -31,6 +31,8 @@ class FullPost extends Component {
     }
 
     render(){
+    // let post = <p style={{textAlign: 'center'}}> Something Went Wrong...</p>
+
     let post = <p style={{textAlign: "center"}}>Please select a Post!</p>;
     // setting the post elment as we wait for the promise to be completed.
     if(this.props.id){
