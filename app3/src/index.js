@@ -5,6 +5,9 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios';
 
+// Axios allows for request URL's to be routed to a base
+// axios.defaults.baseURL = ''
+
 axios.interceptors.request.use(config => {
     console.log(config);
     // the return block must be placed to continue with axios requests in other components
