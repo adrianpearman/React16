@@ -9,7 +9,7 @@ import axios from 'axios';
 // axios.defaults.baseURL = ''
 
 axios.interceptors.request.use(config => {
-    console.log(config);
+    // console.log(config);
     // the return block must be placed to continue with axios requests in other components
     return config
 }, error => {
@@ -18,7 +18,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(response => {
-    console.log(response);
+    // console.log(response);
     // the return block must be placed to continue with axios requests in other components
     return response
 }, error => {

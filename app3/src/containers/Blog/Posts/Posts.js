@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import './Posts.css'
 
@@ -29,9 +30,17 @@ class Posts extends Component{
       })
   }
 
+  // Option #1
+  // For our use case, this method works perfectly fine
   postSelected = (id) => {
       this.setState({selectedPostID: id})
   }
+
+  // Option#2
+  // This option is considered useful if you intend on having other http requests built within the application
+  // postSelected = (id) => {
+  //     this.props.history.push({pathname: '/' + id})
+  // }
 
   render(){
     // establishing error handler for posts
@@ -39,12 +48,24 @@ class Posts extends Component{
     if (!this.state.error) {
         posts = this.state.posts.map(post => {
            return (
-           <Post
-               clicked={() => this.postSelected(post.id)}
-               key={post.id}
-               title={post.title}
-               author={post.author}
-           />)
+
+             // Option#1
+             <Link to={'/' + post.id}  key={post.id}>
+               <Post
+                   clicked={() => this.postSelected(post.id)}
+                   title={post.title}
+                   author={post.author}
+               />
+             </Link>
+
+             // Option#2
+             //   <Post
+             //       key={post.id}
+             //       clicked={() => this.postSelected(post.id)}
+             //       title={post.title}
+             //       author={post.author}
+             //   />
+          )
        })
     }
 
